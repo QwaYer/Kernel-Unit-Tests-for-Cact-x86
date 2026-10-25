@@ -1,0 +1,8 @@
+[package]
+name = "cact-host-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Host-side unit tests for pure CactOS kernel logic (PLAN-2.0.0 P2.1)"
+
+[dependencies]
