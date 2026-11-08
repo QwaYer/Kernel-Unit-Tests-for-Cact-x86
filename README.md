@@ -5,7 +5,7 @@ run on the build machine with `cargo test` — no QEMU, no hardware — and cove
 logic that has **no hardware access, no globals and no FFI**. Logic that touches
 a device or a kernel global is no longer covered by kernel boot self-tests (they
 were removed); it is exercised by the headless boot check
-(`CactKernel-x86_32/tools/cact_check.sh`) and, on hardware, by hand.
+(`CactKernel-x86_64/tools/cact_check.sh`) and, on hardware, by hand.
 
 The modules under test are `#[path]`-included from the real kernel source (see
 `src/lib.rs`), so a regression here is a regression in the kernel, and the tests
@@ -19,7 +19,7 @@ cargo test
 
 ## Currently covered
 
-**82 tests** across nine modules:
+**90 tests** across ten modules:
 
 | Module | Kernel source | What it checks |
 | --- | --- | --- |
@@ -31,6 +31,7 @@ cargo test
 | `intrusive_queue` | `Cact/kernel/proc/sched/src/intrusive_queue.rs` | the intrusive FIFO the MLFQ drives, including a non-unlinking `head()` peek (8) |
 | `mlfq_policy` | `Cact/kernel/proc/sched/src/mlfq_policy.rs` | MLFQ levels/quanta/boost/clamp/pick (6) |
 | `pmm_math` | `Cact/kernel/memory/rust_mm/src/pmm_math.rs` | PMM bitmap index/mask, page↔addr, region clip, `ram_end`/MMIO window (6) |
+| `munmap_plan` | `Cact/kernel/memory/rust_mm/src/munmap_plan.rs` | munmap range clipping: whole/front/back/middle split, adjacency (exclusive ends), no wrap (8) |
 | `vfs_pure` | `Cact/fs/rust_vfs/src/vfs_pure.rs` | dcache bucket index and the child→parent table (5) |
 
 ## Adding a target

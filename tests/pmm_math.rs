@@ -26,7 +26,7 @@ fn bitmap_index_and_mask() {
     assert_eq!(bitmap_mask(7), 0x80);
     assert_eq!(bitmap_mask(8), 0x01);
     // Each index maps to exactly one bit inside its byte.
-    for i in 0u32..256 {
+    for i in 0u64..256 {
         assert_eq!(bitmap_mask(i), 1u8 << (i % 8));
         assert_eq!(bitmap_mask(i).count_ones(), 1);
         assert_eq!(bitmap_byte(i), (i / 8) as usize);
@@ -60,7 +60,7 @@ fn aligned_page_range_rounds_inward() {
 #[test]
 fn ram_end_from_candidate_cases() {
     const LIMIT: u64 = 0x1_0000_0000; // 4 GiB
-    const RESERVED: u32 = 0x0200_0000;
+    const RESERVED: u64 = 0x0200_0000;
 
     assert_eq!(ram_end_from_candidate(0, RESERVED, LIMIT), None); // nothing usable
     assert_eq!(
@@ -75,7 +75,7 @@ fn ram_end_from_candidate_cases() {
     // At/over the limit clamps one page below it.
     assert_eq!(
         ram_end_from_candidate(LIMIT, RESERVED, LIMIT),
-        Some((LIMIT - PAGE_SIZE as u64) as u32)
+        Some(LIMIT - PAGE_SIZE as u64)
     );
     // Below the reserved area -> None (caller keeps its default).
     assert_eq!(ram_end_from_candidate(0x1000, RESERVED, LIMIT), None);
@@ -83,8 +83,8 @@ fn ram_end_from_candidate_cases() {
 
 #[test]
 fn mmio_window_base_is_2mib_aligned_and_clear_of_ram() {
-    const HOLE: u32 = 0xC000_0000;
-    const ALIGN: u32 = 2 * 1024 * 1024;
+    const HOLE: u64 = 0xC000_0000;
+    const ALIGN: u64 = 2 * 1024 * 1024;
 
     let w1 = mmio_window_base(0x7FFD_E000, HOLE); // ram below the hole
     assert_eq!(w1, HOLE);
