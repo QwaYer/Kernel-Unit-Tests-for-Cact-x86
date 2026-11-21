@@ -35,6 +35,9 @@ pub mod munmap_plan;
 #[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/realloc_plan.rs"]
 pub mod realloc_plan;
 
+#[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/heap_stats.rs"]
+pub mod heap_stats;
+
 #[path = "../../CactKernel-x86_64/Cact/fs/rust_vfs/src/vfs_pure.rs"]
 pub mod vfs_pure;
 
