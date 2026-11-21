@@ -19,7 +19,7 @@ cargo test
 
 ## Currently covered
 
-**108 tests** across twelve modules:
+**114 tests** across thirteen modules:
 
 | Module | Kernel source | What it checks |
 | --- | --- | --- |
@@ -34,6 +34,7 @@ cargo test
 | `munmap_plan` | `Cact/kernel/memory/rust_mm/src/munmap_plan.rs` | munmap range clipping: whole/front/back/middle split, adjacency (exclusive ends), no wrap (8) |
 | `realloc_plan` | `Cact/kernel/memory/rust_mm/src/alloc/realloc_plan.rs` | `krealloc` sizing: required block size (plain vs aligned offset), in-place vs absorb-next-free vs move, split threshold, saturation (12) |
 | `heap_stats` | `Cact/kernel/memory/rust_mm/src/alloc/heap_stats.rs` | heap-walk aggregation: free/used split, free-block count, largest free block, saturating totals (6) |
+| `slab_owner` | `Cact/kernel/memory/rust_mm/src/alloc/slab_owner.rs` | slab-page ownership: magic wins over the old capacity guess, a heap page is never a slab, zero capacity / null cache rejected (6) |
 | `vfs_pure` | `Cact/fs/rust_vfs/src/vfs_pure.rs` | dcache bucket index and the child→parent table (5) |
 
 ## Adding a target
