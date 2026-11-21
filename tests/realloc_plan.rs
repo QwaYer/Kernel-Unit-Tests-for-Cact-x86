@@ -96,10 +96,11 @@ fn aligned_pointer_needs_the_larger_block() {
 
 #[test]
 fn should_split_threshold() {
-    // Slack must carry a whole header plus a minimal payload (one ALIGN).
+    // Slack must carry a whole header plus a minimal free block (MIN_FREE = 16).
+    assert_eq!(MIN_FREE, 16);
+    assert!(!should_split(63, 24, HDR));
+    assert!(should_split(64, 24, HDR));
     assert!(!should_split(24, 24, HDR));
-    assert!(should_split(56, 24, HDR));
-    assert!(!should_split(55, 24, HDR));
 }
 
 #[test]

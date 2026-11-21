@@ -38,6 +38,9 @@ pub mod realloc_plan;
 #[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/heap_stats.rs"]
 pub mod heap_stats;
 
+#[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/heap_class.rs"]
+pub mod heap_class;
+
 #[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/slab_owner.rs"]
 pub mod slab_owner;
 
