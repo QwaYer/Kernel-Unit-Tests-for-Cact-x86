@@ -32,6 +32,9 @@ pub mod pmm_math;
 #[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/munmap_plan.rs"]
 pub mod munmap_plan;
 
+#[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/realloc_plan.rs"]
+pub mod realloc_plan;
+
 #[path = "../../CactKernel-x86_64/Cact/fs/rust_vfs/src/vfs_pure.rs"]
 pub mod vfs_pure;
 

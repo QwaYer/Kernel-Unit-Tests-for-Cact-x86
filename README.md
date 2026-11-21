@@ -19,7 +19,7 @@ cargo test
 
 ## Currently covered
 
-**90 tests** across ten modules:
+**102 tests** across eleven modules:
 
 | Module | Kernel source | What it checks |
 | --- | --- | --- |
@@ -32,6 +32,7 @@ cargo test
 | `mlfq_policy` | `Cact/kernel/proc/sched/src/mlfq_policy.rs` | MLFQ levels/quanta/boost/clamp/pick (6) |
 | `pmm_math` | `Cact/kernel/memory/rust_mm/src/pmm_math.rs` | PMM bitmap index/mask, page↔addr, region clip, `ram_end`/MMIO window (6) |
 | `munmap_plan` | `Cact/kernel/memory/rust_mm/src/munmap_plan.rs` | munmap range clipping: whole/front/back/middle split, adjacency (exclusive ends), no wrap (8) |
+| `realloc_plan` | `Cact/kernel/memory/rust_mm/src/alloc/realloc_plan.rs` | `krealloc` sizing: required block size (plain vs aligned offset), in-place vs absorb-next-free vs move, split threshold, saturation (12) |
 | `vfs_pure` | `Cact/fs/rust_vfs/src/vfs_pure.rs` | dcache bucket index and the child→parent table (5) |
 
 ## Adding a target
