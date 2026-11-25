@@ -44,6 +44,9 @@ pub mod heap_class;
 #[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/alloc/slab_owner.rs"]
 pub mod slab_owner;
 
+#[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/comp/zpool_alloc.rs"]
+pub mod zpool_alloc;
+
 #[path = "../../CactKernel-x86_64/Cact/fs/rust_vfs/src/vfs_pure.rs"]
 pub mod vfs_pure;
 
