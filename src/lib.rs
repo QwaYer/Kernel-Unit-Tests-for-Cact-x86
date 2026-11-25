@@ -47,6 +47,9 @@ pub mod slab_owner;
 #[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/comp/zpool_alloc.rs"]
 pub mod zpool_alloc;
 
+#[path = "../../CactKernel-x86_64/Cact/kernel/memory/rust_mm/src/fault/swap_pte.rs"]
+pub mod swap_pte;
+
 #[path = "../../CactKernel-x86_64/Cact/fs/rust_vfs/src/vfs_pure.rs"]
 pub mod vfs_pure;
 
