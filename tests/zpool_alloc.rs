@@ -5,7 +5,7 @@
 //! (`rust_mm::comp::zpool_alloc`).  The module is `#[path]`-included from the
 //! kernel source, so these exercise exactly what the kernel compiles.
 
-use cact_host_tests::zpool_alloc::{AllocError, SlotAlloc, HANDLE_NONE};
+use cact_host_tests::zpool_alloc::{rebuild_free_list, AllocError, SlotAlloc, HANDLE_NONE};
 
 #[test]
 fn init_links_every_slot_and_reports_free() {
@@ -111,4 +111,51 @@ fn reuse_after_full_exhaustion_stays_consistent() {
     // The whole list is usable again.
     assert_eq!(a.alloc(&mut links, 5), Ok(1));
     assert_eq!(a.alloc(&mut links, 5), Ok(0));
+}
+
+#[test]
+fn rebuild_free_list_links_exactly_the_free_slots() {
+    // Slots 1 and 3 are live; 0, 2 and 4 are free.
+    let mut links = [0u32; 5];
+    let live = [false, true, false, true, false];
+    let head = rebuild_free_list(&mut links, |i| !live[i as usize]);
+
+    assert_eq!(head, 0); // the lowest free slot is the head
+    assert_eq!(links[0], 2); // 0 -> 2
+    assert_eq!(links[2], 4); // 2 -> 4
+    assert_eq!(links[4], HANDLE_NONE); // end of the chain
+    assert_eq!(links[1], HANDLE_NONE); // live slots are not linked
+    assert_eq!(links[3], HANDLE_NONE);
+}
+
+#[test]
+fn rebuild_free_list_handles_the_two_extremes() {
+    let mut none = [9u32; 3];
+    assert_eq!(rebuild_free_list(&mut none, |_| false), HANDLE_NONE);
+    assert!(none.iter().all(|&l| l == HANDLE_NONE));
+
+    let mut all = [9u32; 4];
+    assert_eq!(rebuild_free_list(&mut all, |_| true), 0);
+    assert_eq!(all, [1, 2, 3, HANDLE_NONE]);
+}
+
+#[test]
+fn adopt_and_set_budget_preserve_the_live_accounting() {
+    let mut links = [0u32; 4];
+    let mut a = SlotAlloc::new();
+    a.init(&mut links, 1000);
+    assert_eq!(a.alloc(&mut links, 20), Ok(0));
+    assert_eq!(a.alloc(&mut links, 30), Ok(1));
+
+    // A grow takes the new capacity, head and budget but keeps what is charged.
+    a.adopt(6, /* free head */ 2, 4096);
+    assert_eq!(a.capacity(), 6);
+    assert_eq!(a.free_slots(), 4);
+    assert_eq!(a.live(), 2);
+    assert_eq!(a.used_bytes(), 50);
+    assert_eq!(a.budget_bytes(), 4096);
+
+    a.set_budget(8192);
+    assert_eq!(a.budget_bytes(), 8192);
+    assert_eq!(a.live(), 2); // untouched
 }
